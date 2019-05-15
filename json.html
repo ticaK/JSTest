@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var jsObject = {
+            first_name: "Tijana",
+            last_name: "Koprivica",
+            age: "17"
+        };
+
+        var jsonObject = '{ "first_name":"John", "last_name":"Doe", "age":"77"}';
+
+        var newJS = JSON.parse(jsonObject);
+        console.log(newJS);
+
+        newJSON = JSON.stringify(jsObject);
+        console.log(newJSON);
+
+
+        // Create a JS array of numbers
+        // Create a JSON array of numbers
+        // Convert the second array to a JS array and loop over it.
+
+        var jsArray = [1 ,2, 3, 4, 5];
+        var jsonArray = '["a", "b", "c"]';
+
+        var newJsArray = JSON.parse(jsonArray);
+        console.log(newJsArray);
+        newJsArray.forEach(element => {
+            console.log(element);
+        });
+
+    </script>
+
+</body>
+
+</html>
