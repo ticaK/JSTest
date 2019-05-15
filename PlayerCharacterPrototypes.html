@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- Create a PlayerCharacter and a NonPlayerCharacter with a common ancestor Character.
+        The characters are located in a 10x10 game field, meaning they have x and y position. 
+        All characters appear at a random location. 
+        Create those three classes, and make sure you can query where each character is.
+        Make sure the Character class cannot be instantiated.
+        Add an option to set both x and y ( at the same time ) using a setter
+        Keep count of created characters using a static property 
+        (use Prototypes)
+    -->
+  <script>
+
+    let Character = function (x, y) {
+      if (x < 0 || y < 0 || x > 10 || y > 10) {
+        throw new Error('Wrong values for x and y');
+      } else {
+        this.x = x;
+        this.y = y;
+        this.counter = 0;
+        Character.incrementCounter();
+      }
+    }
+
+    Character.prototype.set = function (points) {
+      this.x = points.x;
+      this.y = points.y;
+    };
+
+    Character.prototype.get = function () {
+      return 'This player is currently located at (' + this.x + ',' + this.y + ')';
+    };
+
+    Character.incrementCounter = function () {
+      if (this.counter == undefined) {
+        return this.counter = 1;
+      }
+      else {
+        return this.counter++;
+      }
+    }
+
+    Character.getCounter = function () {
+      return this.counter;
+    }
+
+    let PlayerCharacter = function (x, y) {
+      Character.call(this, x, y);
+    }
+
+    PlayerCharacter.prototype = Object.create(Character.prototype);
+
+    let NonPlayerCharacter = function (x, y) {
+      Character.call(this, x, y);
+    }
+
+    NonPlayerCharacter.prototype = Object.create(Character.prototype);
+
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max) - 10);
+    }
+  
+
+    var player2 = new PlayerCharacter(getRandomInt(20),getRandomInt(20));
+    console.log(player2.get());
+
+    var player3 = new NonPlayerCharacter(getRandomInt(20),getRandomInt(20));
+    console.log(player3.get());
+
+    console.log(Character.getCounter());
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- Create a PlayerCharacter and a NonPlayerCharacter with a common ancestor Character.
+        The characters are located in a 10x10 game field, meaning they have x and y position. 
+        All characters appear at a random location. 
+        Create those three classes, and make sure you can query where each character is.
+        Make sure the Character class cannot be instantiated.
+        Add an option to set both x and y ( at the same time ) using a setter
+        Keep count of created characters using a static property -->
+    <script>
+
+        class Character {
+            constructor(x, y) {
+                if (this.constructor === Character) {
+                    throw new Error('Character cannot be instanced');
+                }
+                if (x < 0 || y < 0 || x > 10 || y > 10) {
+                    throw new Error('Wrong values for x and y');
+                } else {
+                    this.x = x;
+                    this.y = y;
+                    this.counter = 0;
+                    Character.incrementCounter();
+                }
+            }
+            set points(points) {
+                this.x = points.x;
+                this.y = points.y;
+            }
+            get currentPosition() {
+                return 'This player is currently located at (' + this.x + ',' + this.y + ')';
+            }
+            static incrementCounter() {
+                if (this.counter == undefined) {
+                    return this.counter = 1;
+                }
+                else {
+                    return this.counter++;
+                }
+            }
+            static getCounter() {
+                return this.counter;
+            }
+        }
+
+        class PlayerCharacter extends Character {
+            constructor(x, y) {
+                super(x, y);
+            }
+        }
+        class NonPlayerCharacter extends Character {
+            constructor(x, y) {
+                super(x, y);
+            }
+        }
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max) - 10);
+        }
+        // var player = new Character(getRandomInt(20), getRandomInt(20)); //Character cannot be instanced
+        var player1 = new PlayerCharacter(getRandomInt(20), getRandomInt(20));
+        console.log(player1.currentPosition);
+        console.log(Character.getCounter());//1
+
+    </script>
+
+</body>
+
+</html>
