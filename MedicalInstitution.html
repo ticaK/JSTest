@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Person {
+        constructor(firstName, lastName) {
+          if (this.constructor === Person) {
+            throw new Error("Person cannot be instanced");
+          } else {
+            this.firstName = firstName;
+            this.lastName = lastName;
+          }
+        }
+      }
+      class Doctor extends Person {
+        constructor(firstName, lastName, specialization) {
+          super(firstName, lastName);
+          this.specialization = specialization;
+          Loger.logCreateDoctor(this);
+        }
+        patients = [];
+        medicalExaminations = [];
+
+        addPatient(patient) {
+          this.patients.push(patient);
+        }
+
+        makeExamination(patient, examination) {
+          console.log(
+            `[Doctor ${this.firstName} ${this.lastName} ` +
+              `je zakazao pregled pacijentu ${patient.firstName} ${
+                patient.lastName
+              } ]`
+          );
+          this.medicalExaminations.push(examination);
+        }
+      }
+      class Patient extends Person {
+        constructor(firstName, lastName, pin, cardNumber) {
+          super(firstName, lastName);
+          this.pin = pin;
+          this.cardNumber = cardNumber;
+          Loger.logCreatePatient(this);
+        }
+        selectedDoctor = null;
+
+        selectDoctor(doctor) {
+          this.selectedDoctor = doctor;
+          doctor.addPatient(this);
+          Loger.logSelectDoctor(this, doctor);
+        }
+      }
+
+      class LaboratoryExamination {
+        constructor(date, time, patient, type) {
+          if (this.constructor === LaboratoryExamination) {
+            throw new Error("LaboratoryExamination cannot be instanced");
+          } else {
+            this.date = date;
+            this.time = time;
+            this.patient = patient;
+            this.type = type;
+          }
+        }
+      }
+
+      class BloodPressure extends LaboratoryExamination {
+        constructor(date, time, patient, type, upperValue, lowerValue, pulse) {
+          super(date, time, patient);
+          this.type = "pregled krvnog pritiska";
+          this.upperValue = upperValue;
+          this.lowerValue = lowerValue;
+          this.pulse = pulse;
+        }
+
+        doExamination() {
+          Loger.logExamination(this);
+          console.log(
+            `Rezultati pregleda krvnog pritiska za pacijenta ${
+              this.patient.firstName
+            } ${this.patient.lastName}: ` +
+              `${this.upperValue}, ${this.lowerValue}, ${this.pulse}`
+          );
+        }
+      }
+
+      class BloodSugarValue extends LaboratoryExamination {
+        constructor(date, time, patient, type, value, lastEatAt) {
+          super(date, time, patient);
+          this.type = "pregled nivoa secera u krvi";
+          this.value = value;
+          this.lastEatAt = lastEatAt;
+        }
+        doExamination() {
+          Loger.logExamination(this);
+          console.log(
+            `Rezultati pregleda nivoa secera u krvi  za pacijenta ${
+              this.patient.firstName
+            } ${this.patient.lastName}: ` + ` ${this.value}, ${this.lastEatAt}`
+          );
+        }
+      }
+
+      class HolesterolLevel extends LaboratoryExamination {
+        constructor(date, time, patient, type, value, lastEatAt) {
+          super(date, time, patient);
+          this.type = "pregled nivoa holesterola u krvi";
+          this.value = value;
+          this.lastEatAt = lastEatAt;
+        }
+        doExamination() {
+          Loger.logExamination(this);
+          console.log(
+            `Rezultati pregleda nivoa holesterola u krvi za pacijenta ${
+              this.patient.firstName
+            } ${this.patient.lastName}: ` + `${this.value}, ${this.lastEatAt}`
+          );
+        }
+      }
+
+      class Loger {
+        static logCreateDoctor(doctor) {
+          console.log(
+            `[${new Date()} Doctor ${doctor.firstName} ${
+              doctor.lastName
+            } je kreiran ]`
+          );
+        }
+
+        static logCreatePatient(patient) {
+          console.log(
+            `[${new Date()} Pacijent ${patient.firstName} ${
+              patient.lastName
+            } je kreiran ]`
+          );
+        }
+
+        static logSelectDoctor(patient, doctor) {
+          console.log(
+            `[${new Date()} Pacijent ${patient.firstName} ${
+              patient.lastName
+            } je izabrao doktora ${doctor.firstName} ${doctor.lastName}]`
+          );
+        }
+
+        static logExamination(examination) {
+          console.log(
+            `${new Date()} U toku je laboratorijski pregled:${examination.type}`
+          );
+        }
+      }
+
+      function call() {
+        let milan = new Doctor("Milan", "Milanovic", "kardiolog");
+        let dragan = new Patient("Dragan", "Dragic", "0101991158959", "124/21");
+        dragan.selectDoctor(milan);
+        milan.makeExamination(dragan, "pregled nivoa secera u krvi");
+        let examination = new BloodSugarValue(
+          "date ",
+          "time",
+          dragan,
+          this.name,
+          6,
+          "07:00:00"
+        );
+        examination.doExamination();
+
+        milan.makeExamination(dragan, "pregled merenja krvnog pritiska");
+        let examination1 = new BloodPressure(
+          "date ",
+          "time",
+          dragan,
+          this.name,
+          123,
+          78,
+          65
+        );
+        examination1.doExamination();
+      }
+
+      call();
+    </script>
+  </body>
+</html>
